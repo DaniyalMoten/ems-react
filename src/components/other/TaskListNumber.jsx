@@ -55,7 +55,7 @@ const TaskListNumber = () => {
         };
 
         getLoggedInUserTasks();
-    }, [userData]); // Re-run when userData changes
+    }, [userData]); 
 
     return (
         <div className='flex flex-col sm:flex-row mt-5 sm:mt-10 gap-3 sm:gap-5 px-2 sm:px-0' >   
