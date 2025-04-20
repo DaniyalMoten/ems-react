@@ -1,11 +1,7 @@
 import React from 'react'
 
 const Header = ({ handleLogout, user }) => {
-  // Add safety check for user prop
   if (!user) return null;
-  
-  // For debugging
-  
   
   const userName = user.firstName || 'User'
 

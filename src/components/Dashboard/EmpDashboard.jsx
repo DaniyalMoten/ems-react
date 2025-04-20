@@ -4,9 +4,7 @@ import TaskListNumber from '../other/TaskListNumber'
 import TaskList from '../TaskList/TaskList'
 
 const EmpDashboard = ({ handleLogout, user }) => {
-    // Early return if user or required props are missing
     if (!user || !handleLogout) {
-        console.log("Missing required props in EmpDashboard");
         return null;
     }
 
@@ -19,7 +17,6 @@ const EmpDashboard = ({ handleLogout, user }) => {
     )
 }
 
-// Add prop validation
 EmpDashboard.defaultProps = {
     handleLogout: () => console.warn('handleLogout not provided'),
     user: null

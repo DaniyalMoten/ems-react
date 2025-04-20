@@ -13,9 +13,8 @@ const CreateTask = () => {
         e.preventDefault();
 
         try {
-            // Create new task object with the correct structure
             const newTask = {
-                id: `t${Date.now()}`, // Generate unique ID with 't' prefix
+                id: `t${Date.now()}`,
                 title: taskTitle,
                 date: taskDate,
                 category: taskCategory,
@@ -26,10 +25,8 @@ const CreateTask = () => {
                 newTask: true
             };
 
-            // Get current employees data
             const employees = JSON.parse(localStorage.getItem('employees')) || [];
             
-            // Find the employee to assign the task to
             const employeeIndex = employees.findIndex(
                 emp => emp.firstName.toLowerCase() === taskAssignTo.toLowerCase()
             );
@@ -39,27 +36,22 @@ const CreateTask = () => {
                 return;
             }
 
-            // Initialize tasks array if it doesn't exist
             if (!employees[employeeIndex].tasks) {
                 employees[employeeIndex].tasks = [];
             }
 
-            // Add task to employee's tasks array
             employees[employeeIndex].tasks.push(newTask);
 
-            // Update localStorage
             localStorage.setItem('employees', JSON.stringify(employees));
 
-            // Update context
             if (userData) {
                 const updatedUserData = {
                     ...userData,
-                    employees: [...employees] // Create new array to ensure state update
+                    employees: [...employees]
                 };
                 setUserData(updatedUserData);
             }
 
-            // Reset form
             setTaskTitle('');
             setTaskDate('');
             setTaskAssignTo('');
@@ -68,7 +60,6 @@ const CreateTask = () => {
 
             alert('Task created successfully!');
         } catch (error) {
-            console.error('Error creating task:', error);
             alert('Error creating task. Please try again.');
         }
     }

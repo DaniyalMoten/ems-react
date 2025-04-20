@@ -4,9 +4,7 @@ import CreateTask from '../other/CreateTask'
 import AllTask from '../TaskList/AllTask'
 
 const AdminDashboard = ({ handleLogout, user }) => {
-    // Early return if user or required props are missing
     if (!user || !handleLogout) {
-        console.log("Missing required props in AdminDashboard");
         return null;
     }
 
@@ -19,7 +17,6 @@ const AdminDashboard = ({ handleLogout, user }) => {
     )
 }
 
-// Add prop validation
 AdminDashboard.defaultProps = {
     handleLogout: () => console.warn('handleLogout not provided'),
     user: null

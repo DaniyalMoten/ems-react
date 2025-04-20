@@ -8,31 +8,26 @@ const AllTask = () => {
     useEffect(() => {
         const fetchEmployees = () => {
             try {
-                // If we have userData, use it
                 if (userData && userData.employees) {
                     setEmployees(userData.employees);
                     return;
                 }
 
-                // Fallback to localStorage
                 const storedEmployees = JSON.parse(localStorage.getItem('employees'));
                 if (storedEmployees) {
                     setEmployees(storedEmployees);
                 }
             } catch (error) {
-                console.error('Error fetching employees:', error);
+                alert('Error fetching employees. Please try again.');
             }
         };
 
-        // Fetch immediately when component mounts or userData changes
         fetchEmployees();
 
-        // Also set up an interval to check for updates
         const intervalId = setInterval(fetchEmployees, 1000);
 
-        // Cleanup interval on unmount
         return () => clearInterval(intervalId);
-    }, [userData]); // Re-fetch when userData changes
+    }, [userData]);
 
     const getStatusLabel = (task) => {
         if (task.completed) return "Completed";
@@ -52,7 +47,6 @@ const AllTask = () => {
 
     return (
         <div className="bg-[#1C1C1C] mt-5 p-2 sm:p-4 border-2 rounded">
-            {/* Header - visible on larger screens */}
             <div className='hidden sm:flex justify-between mt-3 py-2 px-4 bg-orange-400 text-white mb-3 rounded'>
                 <h2 className='w-1/4'>Employee</h2>
                 <h3 className='w-1/4'>Task</h3>
@@ -67,34 +61,27 @@ const AllTask = () => {
                             key={task.id} 
                             className='flex flex-col sm:flex-row justify-between items-start sm:items-center overflow-hidden mt-3 py-2 px-4 text-white border border-orange-400 rounded hover:bg-gray-900 transition-colors'
                         >
-                            {/* Mobile labels */}
                             <div className='flex flex-col w-full sm:hidden mb-2'>
                                 <span className='text-xs text-gray-400'>Employee:</span>
                                 <h2 className='font-medium'>{employee.firstName}</h2>
                             </div>
 
-                            {/* Desktop employee name */}
                             <h2 className='hidden sm:block w-1/4 truncate'>{employee.firstName}</h2>
 
-                            {/* Mobile labels */}
                             <div className='flex flex-col w-full sm:hidden mb-2'>
                                 <span className='text-xs text-gray-400'>Task:</span>
                                 <h3 className='font-medium'>{task.title}</h3>
                             </div>
 
-                            {/* Desktop task title */}
                             <h3 className='hidden sm:block w-1/4 truncate'>{task.title}</h3>
 
-                            {/* Mobile labels */}
                             <div className='flex flex-col w-full sm:hidden mb-2'>
                                 <span className='text-xs text-gray-400'>Date:</span>
                                 <h3 className='font-medium'>{task.date}</h3>
                             </div>
 
-                            {/* Desktop date */}
                             <h3 className='hidden sm:block w-1/4 truncate'>{task.date}</h3>
 
-                            {/* Mobile labels */}
                             <div className='flex flex-col w-full sm:hidden'>
                                 <span className='text-xs text-gray-400'>Status:</span>
                                 <h5 className={`font-medium ${getStatusColor(task)}`}>
@@ -102,7 +89,6 @@ const AllTask = () => {
                                 </h5>
                             </div>
 
-                            {/* Desktop status */}
                             <h5 className={`hidden sm:block w-1/4 font-medium ${getStatusColor(task)}`}>
                                 {getStatusLabel(task)}
                             </h5>

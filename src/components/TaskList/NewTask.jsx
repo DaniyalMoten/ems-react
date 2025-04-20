@@ -6,26 +6,18 @@ const NewTask = ({ task }) => {
 
   const handleAcceptTask = () => {
     try {
-      // Get current data
       const employees = JSON.parse(localStorage.getItem('employees'));
       const loggedInUser = JSON.parse(localStorage.getItem('loggedInUser'));
 
       if (!employees || !loggedInUser) {
-        console.error('Missing data:', { employees, loggedInUser });
         return;
       }
 
-      console.log('Current task:', task);
-      console.log('LoggedInUser:', loggedInUser);
-
-      // Find the employee who owns this task
       const employee = employees.find(emp => emp.tasks.some(t => t.id === task.id));
       if (!employee) {
-        console.error('Could not find employee with this task');
         return;
       }
 
-      // Find and update the task
       const updatedEmployees = employees.map(emp => {
         if (emp.id === employee.id) {
           const updatedTasks = emp.tasks.map(t => {
@@ -46,10 +38,8 @@ const NewTask = ({ task }) => {
         return emp;
       });
 
-      // Update localStorage
       localStorage.setItem('employees', JSON.stringify(updatedEmployees));
 
-      // Update AuthContext
       if (userData) {
         setUserData({
           ...userData,
@@ -60,7 +50,6 @@ const NewTask = ({ task }) => {
       alert('Task accepted successfully!');
       
     } catch (error) {
-      console.error('Error accepting task:', error);
       alert('Error accepting task. Please try again.');
     }
   };

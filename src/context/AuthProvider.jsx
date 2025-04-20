@@ -10,10 +10,7 @@ export const AuthProvider = ({ children }) => {
     useEffect(() => {
         const initializeData = () => {
             try {
-                // Get data from localStorage
                 const data = getLocalStorage();
-                
-                // Get logged in user
                 const loggedInUser = JSON.parse(localStorage.getItem('loggedInUser'));
                 
                 if (loggedInUser) {
@@ -23,19 +20,18 @@ export const AuthProvider = ({ children }) => {
                             role: 'admin'
                         });
                     } else {
-                        // For employee, only include their data
                         const employee = data.employees.find(emp => emp.id === loggedInUser.id);
                         if (employee) {
                             setUserData({
                                 role: 'employee',
                                 ...employee,
-                                employees: data.employees // Keep full employees array for task management
+                                employees: data.employees
                             });
                         }
                     }
                 }
             } catch (error) {
-                console.error('Error initializing data:', error);
+                alert('Error initializing data. Please try again.');
             } finally {
                 setLoading(false);
             }
@@ -44,7 +40,6 @@ export const AuthProvider = ({ children }) => {
         initializeData();
     }, []);
 
-    // Update localStorage whenever userData changes
     useEffect(() => {
         if (userData && userData.employees) {
             localStorage.setItem('employees', JSON.stringify(userData.employees));

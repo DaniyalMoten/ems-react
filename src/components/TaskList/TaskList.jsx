@@ -15,25 +15,23 @@ const TaskList = () => {
                 const loggedInUser = JSON.parse(localStorage.getItem('loggedInUser'));
                 if (!loggedInUser) return;
 
-                // If we have userData, use it directly
                 if (userData && userData.tasks) {
                     setTasks(userData.tasks);
                     return;
                 }
 
-                // Fallback to localStorage
                 const employees = JSON.parse(localStorage.getItem('employees')) || [];
                 const employee = employees.find(emp => emp.id === loggedInUser.id);
                 if (employee && employee.tasks) {
                     setTasks(employee.tasks);
                 }
             } catch (error) {
-                console.error('Error fetching tasks:', error);
+                alert('Error fetching tasks. Please try again.');
             }
         };
 
         fetchTasks();
-    }, [userData]); // Re-fetch when userData changes
+    }, [userData]);
 
     if (!tasks || tasks.length === 0) {
         return (
@@ -47,7 +45,6 @@ const TaskList = () => {
         <div className='px-2 sm:px-0'>
             <div id='taskList' className='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 mt-5 sm:mt-10'>
                 {tasks.map((task) => {
-                    // First check for new tasks
                     if (task.newTask) {
                         return (
                             <div key={task.id} className="w-full">
@@ -55,7 +52,6 @@ const TaskList = () => {
                             </div>
                         );
                     }
-                    // Then check for active tasks
                     if (task.active) {
                         return (
                             <div key={task.id} className="w-full">
@@ -63,7 +59,6 @@ const TaskList = () => {
                             </div>
                         );
                     }
-                    // Then completed tasks
                     if (task.completed) {
                         return (
                             <div key={task.id} className="w-full">
@@ -71,7 +66,6 @@ const TaskList = () => {
                             </div>
                         );
                     }
-                    // Finally failed tasks
                     if (task.failed) {
                         return (
                             <div key={task.id} className="w-full">

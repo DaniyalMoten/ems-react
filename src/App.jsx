@@ -10,16 +10,13 @@ const App = () => {
     const [userData, setUserData] = useContext(AuthContext)
 
     const handleLogout = () => {
-        // Clear user state
         setUser(null)
-        // Remove from localStorage
         localStorage.removeItem('loggedInUser')
     }
 
     const handleLogin = (email, password) => {
         const { employees, admin } = getLocalStorage()
         
-        // Check for admin login
         if (email === 'admin@example.com' && password === '12345') {
             const adminUser = { role: 'admin', email: 'admin@example.com' }
             setUser(adminUser)
@@ -27,7 +24,6 @@ const App = () => {
              return <AdminDashboard handleLogout={handleLogout} user={user} />
         }
 
-        // Check for employee login
         const employee = employees.find(emp => emp.email === email && emp.password === password)
         if (employee) {
             const employeeUser = { role: 'employee', ...employee }
@@ -40,7 +36,6 @@ const App = () => {
     }
 
     useEffect(() => {
-        // Check if user is already logged in
         const loggedInUser = localStorage.getItem("loggedInUser")
         if (loggedInUser) {
             try {
@@ -57,23 +52,20 @@ const App = () => {
                       }
                 }
             } catch (error) {
-                console.error('Error parsing user data:', error)
+                alert('Error parsing user data. Please try again.')
                 localStorage.removeItem('loggedInUser')
             }
         }
     }, [])
 
-    // Show loading state while checking authentication
     if (user === undefined) {
         return <div>Loading...</div>
     }
 
-    // Show login if no user
     if (!user) {
         return <Login handleLogin={handleLogin} />
     }
 
-    // Render appropriate dashboard based on user role
     return user.role === 'admin' 
         ? <AdminDashboard handleLogout={handleLogout} user={user} /> 
         : <EmpDashboard handleLogout={handleLogout} user={user} />
